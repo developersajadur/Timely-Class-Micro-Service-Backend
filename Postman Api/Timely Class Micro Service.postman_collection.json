@@ -1,0 +1,816 @@
+{
+	"info": {
+		"_postman_id": "2034da72-0604-4465-999c-309f7cf4f504",
+		"name": "Timely Class Micro Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39124117"
+	},
+	"item": [
+		{
+			"name": "Kong API Gateway",
+			"item": [
+				{
+					"name": "Users Service",
+					"item": [
+						{
+							"name": "Create User Service",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "{{USERS_SERVICE}}",
+											"type": "text"
+										},
+										{
+											"key": "url",
+											"value": "http://host.docker.internal:5001",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{KONG_ADMIN}}/services",
+									"host": [
+										"{{KONG_ADMIN}}"
+									],
+									"path": [
+										"services"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "User Route Registration",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "paths[]",
+											"value": "/api/v1/users",
+											"type": "text"
+										},
+										{
+											"key": "strip_path",
+											"value": "false",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{KONG_ADMIN}}/services/{{USERS_SERVICE}}/routes",
+									"host": [
+										"{{KONG_ADMIN}}"
+									],
+									"path": [
+										"services",
+										"{{USERS_SERVICE}}",
+										"routes"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Schedules Service",
+					"item": [
+						{
+							"name": "Create Schedule Service",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "{{SCHEDULE_SERVICE}}",
+											"type": "text"
+										},
+										{
+											"key": "url",
+											"value": "http://host.docker.internal:5002",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{KONG_ADMIN}}/services",
+									"host": [
+										"{{KONG_ADMIN}}"
+									],
+									"path": [
+										"services"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Schedule Route Registration",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "paths[]",
+											"value": "/api/v1/schedules",
+											"type": "text"
+										},
+										{
+											"key": "strip_path",
+											"value": "false",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{KONG_ADMIN}}/services/{{SCHEDULE_SERVICE}}/routes",
+									"host": [
+										"{{KONG_ADMIN}}"
+									],
+									"path": [
+										"services",
+										"{{SCHEDULE_SERVICE}}",
+										"routes"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Plugins",
+					"item": [
+						{
+							"name": "Add Plugin to Service",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{KONG_ADMIN}}/services/{{USERS_SERVICE}}/plugins",
+									"host": [
+										"{{KONG_ADMIN}}"
+									],
+									"path": [
+										"services",
+										"{{USERS_SERVICE}}",
+										"plugins"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "List all routes in Kong",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8001/routes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8001",
+							"path": [
+								"routes"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Services",
+			"item": [
+				{
+					"name": "User Service",
+					"item": [
+						{
+							"name": "User",
+							"item": [
+								{
+									"name": "Create User",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Sajadur Rahman\",\n    \"email\": \"itzmesoji2@gmail.com\",\n    \"password\": \"Sojib@123\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/users/create",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"users",
+												"create"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update User",
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{USER_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Sajadur Rahman\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/users/update",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"users",
+												"update"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get User By Id",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{USER_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{BASE_URL}}/users/11100ec7-511a-4a2f-a129-f62f16c84d3c",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"users",
+												"11100ec7-511a-4a2f-a129-f62f16c84d3c"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Auth",
+							"item": [
+								{
+									"name": "Login",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"itzmesojib@gmail.com\",\n    \"password\": \"Sojib@123\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/users/auth/login",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"users",
+												"auth",
+												"login"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Email Otp",
+							"item": [
+								{
+									"name": "Send OTP",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"itzmesojib@gmail.com\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/users/emails-otp/send-otp",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"users",
+												"emails-otp",
+												"send-otp"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Verify OTP",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"itzmesojib@gmail.com\",\n    \"otp\": \"8596\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/users/emails-otp/verify-otp",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"users",
+												"emails-otp",
+												"verify-otp"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "User Service Health Check",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{USER_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:5001/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Schedule Service",
+					"item": [
+						{
+							"name": "Schedule",
+							"item": [
+								{
+									"name": "Create Schedule",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{USER_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"Math Class\",\n  \"subject\": \"Mathematics\",\n  \"instructor\": \"Jane Smith\",\n  \"day\": \"Friday\",\n  \"startTime\": \"11:45 AM\",\n  \"endTime\": \"12:30 PM\",\n  \"color\": \"#2196F3\",\n  \"description\": \"Algebra and Geometry\"\n}\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/schedules/create",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"schedules",
+												"create"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Schedule",
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{USER_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\n    \"description\": \"Introduction to chemistry experiments\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/schedules/update/cmf477biq0005qh0gmthzb91n",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"schedules",
+												"update",
+												"cmf477biq0005qh0gmthzb91n"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get My Schedules",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{USER_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{BASE_URL}}/schedules/get-my-schedules",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"schedules",
+												"get-my-schedules"
+											],
+											"query": [
+												{
+													"key": "search",
+													"value": "eng",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get My Single Schedules",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{USER_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{BASE_URL}}/schedules/get-my-schedules/f0fb05c3-c5e3-4c73-8a9c-ce044bca5b16",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"schedules",
+												"get-my-schedules",
+												"f0fb05c3-c5e3-4c73-8a9c-ce044bca5b16"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Archive My Schedules",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{USER_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"scheduleIds\": [\n    // \"3a3e7642-536d-4088-a3db-6fa0f6cd4d6e\"\n    \"f0fb05c3-c5e3-4c73-8a9c-ce044bca5b16\"\n  ]\n}\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/schedules/archive",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"schedules",
+												"archive"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update Schedule Priority",
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{USER_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"scheduleId\": \"3a3e7642-536d-4088-a3db-6fa0f6cd4d6e\",\n  \"newPriority\": 2\n}\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/schedules/update-priority",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"schedules",
+												"update-priority"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Archives",
+							"item": [
+								{
+									"name": "Get Archives With Query",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{USER_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{BASE_URL}}/schedules/archives/get-my-all-archives",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"schedules",
+												"archives",
+												"get-my-all-archives"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Archive And Restore Schedule",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{USER_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{BASE_URL}}/schedules/archives/delete-archive-and-restore-schedule/3d27aff2-6b3b-420a-9730-a31408d050c8",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"schedules",
+												"archives",
+												"delete-archive-and-restore-schedule",
+												"3d27aff2-6b3b-420a-9730-a31408d050c8"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Permanent Delete Archive",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{USER_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{BASE_URL}}/schedules/archives/permanent-delete-archive/c3764013-fb9d-4198-9b32-fdbd175b6179",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"schedules",
+												"archives",
+												"permanent-delete-archive",
+												"c3764013-fb9d-4198-9b32-fdbd175b6179"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Reminder",
+							"item": [
+								{
+									"name": "Add Or Update Reminder",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{USER_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "  {\n    \"scheduleId\": \"407733d6-897f-465e-90cf-a8443f380c68\",\n    \"reminderMinutes\": 2\n\n\n  }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_URL}}/schedules/reminders/add-or-update-reminder",
+											"host": [
+												"{{BASE_URL}}"
+											],
+											"path": [
+												"schedules",
+												"reminders",
+												"add-or-update-reminder"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Schedule Service Health Check",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5002",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5002"
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:5000/api/v1"
+		},
+		{
+			"key": "LIVE_BASE_URL",
+			"value": "https://timely-class-server-api.vercel.app/"
+		},
+		{
+			"key": "USER_TOKEN",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODMzOTBlMGI0MzJmMGE1ZTU0ZTliYzEiLCJlbWFpbCI6Iml0em1lc29qaWJAZ21haWwuY29tIiwicm9sZSI6ImN1c3RvbWVyIiwibG9naW5UeXBlIjoiUEFTU1dPUkQiLCJpYXQiOjE3NDgyMDk5NDcsImV4cCI6MTc1MDgwMTk0N30.cSEKWHTBxkr17u-E9DebGRsORkupNi3Hbu10gZ6txS8"
+		},
+		{
+			"key": "KONG_ADMIN",
+			"value": ""
+		},
+		{
+			"key": "USERS_SERVICE",
+			"value": ""
+		},
+		{
+			"key": "SCHEDULE_SERVICE",
+			"value": ""
+		},
+		{
+			"key": "PROXY_URL",
+			"value": ""
+		}
+	]
+}

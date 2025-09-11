@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Schedule {
+  id               String    @id @default(uuid())
+  title            String?
+  subject          String
+  instructor       String
+  day              String // e.g., "Monday"
+  startTime        String // e.g., "09:00 AM"
+  endTime          String // e.g., "10:30 AM"
+  date             DateTime?
+  color            String? // hex code
+  description      String?
+  priority         Int       @unique
+  reminderMinutes  Int?
+  lastReminderSent DateTime?
+  reminderSent     Boolean   @default(false)
+  isDeleted        Boolean   @default(false)
+  userId           String // External reference to Auth Service
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  archives Archive[]
+
+  @@index([userId, title, subject, priority, day])
+  @@map("schedules")
+}
+
+model Archive {
+  id         String   @id @default(uuid())
+  scheduleId String
+  userId     String // External reference to Auth Service
+  isDeleted  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  schedule   Schedule @relation(fields: [scheduleId], references: [id])
+
+  @@index([userId, scheduleId])
+  @@map("archives")
+}
+
+
+enum Role {
+  user
+  admin
+}

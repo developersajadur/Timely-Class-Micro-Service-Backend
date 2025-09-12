@@ -18,6 +18,8 @@ const loginUser = async (data: ILogin) => {
   }
   if (userData.isBlocked) {
     throw new AppError(status.NOT_ACCEPTABLE, 'User is blocked!');
+  }else if (!userData.emailVerified) {
+    throw new AppError(status.NOT_ACCEPTABLE, 'User is not verified! Please verify your email.');
   }
 
   const isCorrectPassword: boolean = await bcrypt.compare(

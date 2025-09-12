@@ -24,7 +24,6 @@ router.get('/:id', auth(), UserController.getUserById);
 
 router.get(
   '/get-single-user-without-auth/:id',
-  auth(),
   UserController.getUserByIdWithoutAuth,
 );
 

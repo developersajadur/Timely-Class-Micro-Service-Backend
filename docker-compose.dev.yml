@@ -59,6 +59,10 @@ services:
       - ./services/User/.env
     ports:
       - "5001:5001"
+    volumes:
+      - ./services/User:/app
+      - /app/node_modules
+    command: yarn dev
     depends_on:
       - postgres
       - redis
@@ -76,6 +80,10 @@ services:
       - ./services/Schedule/.env
     ports:
       - "5002:5002"
+    volumes:
+      - ./services/Schedule:/app
+      - /app/node_modules
+    command: yarn dev
     depends_on:
       - postgres
       - redis

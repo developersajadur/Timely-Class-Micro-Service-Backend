@@ -3,6 +3,7 @@ import axios from 'axios';
 import { reminderEmailTemplate } from '../../templates/reminderEmailTemplate';
 import prisma from '../shared/prisma';
 import { sendEmail } from '../utils/email';
+import config from '../config';
 
 export const scheduleReminderJob = async () => {
   const now = new Date();
@@ -20,18 +21,18 @@ export const scheduleReminderJob = async () => {
     });
 
     if (schedules.length === 0) {
-      console.log(`[${new Date().toISOString()}] No schedules found.`);
+      console.log(`${new Date().toISOString()}] No schedules found.`);
       return;
     }
+
 
     // 2. Fetch users from user service
     const userRequests = schedules.map((schedule) =>
       axios
-        .get(
-          `http://localhost:5001/api/v1/users/get-single-user-without-auth/${schedule.userId}`,
-        )
+       .get(`${config.user_service_url}/get-single-user-without-auth/${schedule.userId}`)
         .then((res) => ({ id: schedule.userId, data: res.data.data as any }))
         .catch((err) => {
+          console.log(err);
           console.error(
             `[${new Date().toISOString()}] Failed to fetch user for scheduleId ${schedule.id}:`,
             err.message,

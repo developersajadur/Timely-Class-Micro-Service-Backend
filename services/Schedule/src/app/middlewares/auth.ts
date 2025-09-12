@@ -40,7 +40,7 @@ const auth = (...roles: string[]) => {
       //   where: { id: verifiedUser.id },
       // });
       const getUserFromUserService = await axios.get(
-        `http://localhost:5001/api/v1/users/${verifiedUser.id}`,
+        `${config.user_service_url}/${verifiedUser.id}`,
         {
           headers: {
             Authorization: token as string,

@@ -28,7 +28,6 @@ app.get('/', (req: Request, res: Response) => {
     message: `Schedule Service Server Is Running On Port: ${config.port}`,
   });
 });
-
 app.use('/api/v1', router);
 
 // Jobs start here

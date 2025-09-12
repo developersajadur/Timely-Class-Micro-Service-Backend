@@ -1,0 +1,2 @@
+for run just dev use: docker-compose -f docker-compose.yml up
+for production : docker-compose up -d

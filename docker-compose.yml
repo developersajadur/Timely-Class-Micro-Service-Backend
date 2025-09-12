@@ -5,7 +5,7 @@ services:
   postgres:
     image: postgres:latest
     container_name: postgres_db
-    restart: on-failure
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -21,7 +21,7 @@ services:
   pgadmin:
     image: dpage/pgadmin4:8
     container_name: pgadmin
-    restart: on-failure
+    restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: itzmesojib@gmail.com
       PGADMIN_DEFAULT_PASSWORD: Sojib@123
@@ -39,7 +39,7 @@ services:
   redis:
     image: redis:latest
     container_name: redis_cache
-    restart: on-failure
+    restart: always
     ports:
       - "6379:6379"
     volumes:
@@ -48,13 +48,11 @@ services:
     networks:
       - timely_class_network
 
-  # Users Microservice
+  # Users Microservice (from Docker Hub)
   users-service:
-    build:
-      context: ./services/User
-      dockerfile: Dockerfile
+    image: sajadurrahman/timelyclass-users-service:latest
     container_name: users_service
-    restart: on-failure
+    restart: always
     env_file:
       - ./services/User/.env
     ports:
@@ -65,13 +63,11 @@ services:
     networks:
       - timely_class_network
 
-  # Schedule Microservice
+  # Schedule Microservice (from Docker Hub)
   schedule-service:
-    build:
-      context: ./services/Schedule
-      dockerfile: Dockerfile
+    image: sajadurrahman/timelyclass-schedule-service:latest
     container_name: schedule_service
-    restart: on-failure
+    restart: always
     env_file:
       - ./services/Schedule/.env
     ports:
@@ -87,6 +83,7 @@ services:
   kong-database:
     image: postgres:14
     container_name: kong_db
+    restart: always
     environment:
       POSTGRES_USER: kong
       POSTGRES_PASSWORD: kong
@@ -116,6 +113,7 @@ services:
   kong:
     image: kong:3.3
     container_name: kong
+    restart: always
     environment:
       KONG_DATABASE: postgres
       KONG_PG_HOST: kong-database

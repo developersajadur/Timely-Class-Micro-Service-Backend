@@ -1,0 +1,12 @@
+{
+  "name": "timelyclass-microservice",
+  "version": "1.0.0",
+  "scripts": {
+    "docker:push": "bash ./docker-hub-push-services.sh",
+    "docker:push:dev": "bash ./docker-hub-push-services.sh dev",
+    "docker:deploy": "bash ./docker-deploy.sh",
+    "docker:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build",
+    "docker:down": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml down",
+    "docker:prod": "docker-compose -f docker-compose.yml up -d"
+  }
+}

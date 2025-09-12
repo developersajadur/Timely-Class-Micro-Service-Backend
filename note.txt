@@ -1,2 +1,10 @@
 for run just dev use: docker-compose -f docker-compose.yml up
 for production : docker-compose up -d
+
+
+push on dockerhub: docker push sajadurrahman/timelyclass-users-service:v1.0.0
+
+
+Give Execute Permission for deploy.sh : chmod +x deploy.sh
+
+Give Execute Permission for docker hub push: chmod +x docker-hub-push-services.sh

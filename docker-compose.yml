@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.8'
 
 services:
   # PostgreSQL Database
@@ -44,11 +44,10 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
-    command: ["redis-server", "--save", "900", "1"]
     networks:
       - timely_class_network
 
-  # Users Microservice (from Docker Hub)
+  # Users Microservice
   users-service:
     image: sajadurrahman/timelyclass-users-service:latest
     container_name: users_service
@@ -63,7 +62,7 @@ services:
     networks:
       - timely_class_network
 
-  # Schedule Microservice (from Docker Hub)
+  # Schedule Microservice
   schedule-service:
     image: sajadurrahman/timelyclass-schedule-service:latest
     container_name: schedule_service
@@ -79,7 +78,7 @@ services:
     networks:
       - timely_class_network
 
-  # Kong Database (for Kong Gateway)
+  # Kong Database
   kong-database:
     image: postgres:14
     container_name: kong_db
@@ -134,12 +133,34 @@ services:
     networks:
       - timely_class_network
 
+  # Database Backup Service
+  db-backup:
+    build:
+      context: ./backup-scripts
+    container_name: db_backup_service
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_HOST: postgres_db
+    volumes:
+      - db_backups:/backups
+      - ./rclone:/root/.config/rclone   # map host rclone.conf
+    depends_on:
+      - postgres
+    networks:
+      - timely_class_network
+
+# Persistent Volumes
 volumes:
   postgres_data:
   redis_data:
   pgadmin_data:
   kong_data:
+  db_backups:
 
+# Docker Network
 networks:
   timely_class_network:
     driver: bridge

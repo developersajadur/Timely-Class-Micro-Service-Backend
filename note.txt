@@ -1,10 +1,34 @@
-for run just dev use: docker-compose -f docker-compose.yml up
-for production : docker-compose up -d
+==========================
+   Timely Class Commands
+==========================
 
+1) Run Services
 
-push on dockerhub: docker push sajadurrahman/timelyclass-users-service:v1.0.0
+# Development mode (foreground, logs visible)
+docker-compose -f docker-compose.yml up
 
+# Production mode (detached, runs in background)
+docker-compose up -d
 
-Give Execute Permission for deploy.sh : chmod +x deploy.sh
+--------------------------------------------------
+2) Push Docker Images to Docker Hub
 
-Give Execute Permission for docker hub push: chmod +x docker-hub-push-services.sh
+# Push a specific service image
+docker push sajadurrahman/timelyclass-users-service:v1.0.0
+
+--------------------------------------------------
+3) Set Execute Permissions
+
+# For deploy.sh
+chmod +x deploy.sh
+
+# For docker hub push script
+chmod +x docker-hub-push-services.sh
+
+--------------------------------------------------
+4) Notes
+
+- Development mode is useful for debugging and logs.
+- Production mode is for live deployment.
+- Make sure your Docker images are properly tagged before pushing.
+- Always give execute permissions to scripts before running them.
